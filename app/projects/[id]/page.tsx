@@ -51,8 +51,11 @@ export default async function PublicProjectDetailPage({
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto">
+        {project &&
         <PreviewCard project={project} isOwner={false}  />
+        }
       </div>
     </div>
   )
 }
+
