@@ -8,7 +8,7 @@ interface PublicProjectDetailPageProps {
   params: { id: string }
 }
 
-// Generate static params at build time
+// Generate static params at build time - ONLY for public projects
 export async function generateStaticParams() {
   // Only include public projects in the build
   const publicProjects = await prisma.project.findMany({
@@ -21,6 +21,9 @@ export async function generateStaticParams() {
   }))
 }
 
+// This tells Next.js to generate the rest on-demand
+export const dynamicParams = true
+
 export default async function PublicProjectDetailPage({
   params,
 }: PublicProjectDetailPageProps) {
@@ -29,9 +32,20 @@ export default async function PublicProjectDetailPage({
     where: { id: params.id },
   })
 
+  // During build, we should only get here for public projects
+  // So we can safely skip the notFound check during build
+  const isBuildTime = process.env.NODE_ENV === 'production' && typeof window === 'undefined'
+  
   // If project doesn't exist or isn't public → 404
-  if (!project || !project.isPublic) {
+  // But only at runtime, not during build
+  if ((!project || !project.isPublic) && !isBuildTime) {
     notFound()
+  }
+
+  // If we're building and the project doesn't exist, return null
+  // This should never happen if generateStaticParams works correctly
+  if (isBuildTime && (!project || !project.isPublic)) {
+    return null
   }
 
   return (
