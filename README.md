@@ -1,7 +1,3 @@
-# Mini Projects CRUD
-
-A Next.js application for managing projects with authentication and CRUD functionality.
-
 ## Setup
 
 1. Clone the repository
@@ -19,3 +15,4 @@ A Next.js application for managing projects with authentication and CRUD functio
 - Public/private project visibility
 - Search and filter functionality
 - Responsive design with Tailwind CSS
+
