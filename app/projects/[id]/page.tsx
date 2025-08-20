@@ -2,7 +2,7 @@ import { prisma } from '@/lib/db'
 import { notFound } from 'next/navigation'
 import PreviewCard from '@/components/PreviewCard'
 
-export const revalidate = 3600 // Revalidate every hour (ISR)
+export const dynamic = "force-dynamic";
 
 interface PublicProjectDetailPageProps {
   params: { id: string }
@@ -58,4 +58,5 @@ export default async function PublicProjectDetailPage({
     </div>
   )
 }
+
 
